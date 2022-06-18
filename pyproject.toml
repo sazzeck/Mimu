@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "mimu"
+version = "0.1.0"
+description = "Mimu - bot for Discod"
+authors = ["sazzeck <sazzeckprog@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.9.0,<3.10"
+hikari = {extras = ["speedups"], version = "^2.0.0-alpha.108"}
+hikari-lightbulb = "^2.2.2"
+hikari-miru = "^1.1.1"
+hikari-sake = "1.0.2a1"
+uvloop = "^0.16.0"
+APScheduler = "^3.9.1"
+psutil = "^5.9.1"
+pygount = "^1.4.0"
+python-dotenv = "^0.20.0"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^4.0.1"
+black = "^22.3.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
