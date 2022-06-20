@@ -15,6 +15,7 @@ APScheduler = "^3.9.1"
 psutil = "^5.9.1"
 pygount = "^1.4.0"
 python-dotenv = "^0.20.0"
+msgpack = "^1.0.4"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"

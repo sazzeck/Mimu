@@ -1,9 +1,6 @@
 import os
 
 from mimu.models.bot import Mimu
-from mimu.utils import Config
-
-import sake
 
 
 def main():
@@ -13,13 +10,6 @@ def main():
         uvloop.install()
 
     bot = Mimu()
-
-    bot.redis_chache = sake.RedisCache(
-        app=bot,
-        address=Config.REDIS_ADDRESS,
-        event_manager=bot.event_manager,
-        event_managed=True,
-    )
 
     bot.run()
 
