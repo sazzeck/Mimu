@@ -11,6 +11,7 @@ from hikari import events
 import lightbulb
 
 from mimu.utils import Config
+from .buttons import BasicButton
 
 import miru
 
@@ -34,6 +35,7 @@ class Mimu(lightbulb.BotApp):
         self.redis_cache = sake.RedisCache(
             app=self,
             address=Config.REDIS_ADDRESS,
+            password=Config.REDIS_PASSWORD,
             event_manager=self.event_manager,
             event_managed=True,
             dumps=msgpack.dumps,
@@ -50,14 +52,25 @@ class Mimu(lightbulb.BotApp):
         subscriptions = {
             events.StartingEvent: self.on_starting,
             events.StartedEvent: self.on_started,
-            events.GuildAvailableEvent: self.on_guild_available,
             lightbulb.LightbulbStartedEvent: self.on_lightbulb_started,
             events.StoppingEvent: self.on_stopping,
+            events.GuildAvailableEvent: self.on_guild_available,
             events.GuildJoinEvent: self.on_guild_join,
             events.GuildLeaveEvent: self.on_guild_leave,
+            events.MessageCreateEvent: self.on_message_create,
         }
         for event, callback in subscriptions.items():
             self.event_manager.subscribe(event, callback)
+
+    async def on_message_create(self, event: events.MessageCreateEvent) -> None:
+        if event.is_bot or not event.content:
+            return
+
+        if event.content == "buttons":
+            button = BasicButton(event.message)
+            message = await event.message.respond("test", components=button.build())
+            button.start(message)
+            await button.wait()
 
     async def on_lightbulb_started(self, _: lightbulb.LightbulbStartedEvent):
         self.log.info(f"Connected to {len(self._list_guilds)} guilds")
