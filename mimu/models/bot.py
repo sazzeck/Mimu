@@ -12,6 +12,8 @@ import lightbulb
 
 from mimu.utils import Config
 
+import miru
+
 import msgpack
 
 import sake
@@ -38,6 +40,8 @@ class Mimu(lightbulb.BotApp):
             loads=msgpack.loads,
         )
 
+        miru.load(self)
+
         self.start_listeners
         self._list_guilds: t.List[hikari.Snowflake] = []
 
@@ -63,7 +67,7 @@ class Mimu(lightbulb.BotApp):
         self.session
         await self.redis_cache.open()
 
-    async def on_started(self, _: events.StartedEvent):
+    async def on_started(self, event: events.StartedEvent):
         ...
 
     async def on_stopping(self, _: events.StoppingEvent):
